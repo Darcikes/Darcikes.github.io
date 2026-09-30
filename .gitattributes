@@ -1,0 +1,5 @@
+# 跨平台换行符统一，避免多机同步时出现满屏假 diff
+* text=auto
+
+# Markdown 按行合并：多台机器改不同段落时不会冲突
+*.md merge=union
