@@ -50,6 +50,9 @@ _面向 AI Agent 的仓库交接文档 · 最后更新 2026-09-30_
 │       ├── ubuntu-kvm.md
 │       └── omarchy-vm.md
 ├── public/                     静态资源，原样复制到产物根目录
+│   ├── favicon.ico             站点图标（16/32/48/64 多尺寸）
+│   ├── apple-touch-icon.png    iOS 主屏图标 180×180
+│   └── robots.txt              爬虫规则 + sitemap 指引
 └── .vitepress/
     ├── config.mts              ★ 唯一配置入口
     └── theme/index.ts          自定义主题：挂载 Mermaid 渲染器
@@ -66,6 +69,10 @@ _面向 AI Agent 的仓库交接文档 · 最后更新 2026-09-30_
 | `sidebar` | 侧边栏，按 `/分类/` 键分组。**新增文章必须在此登记，否则侧边栏里看不到** |
 | `srcExclude` | 排除不进站点的文件（README / AGENTS / CLAUDE / templates） |
 | `search` | 本地全文搜索，自带无需第三方服务 |
+| `head` | 注入每个页面 `<head>` 的标签（favicon、apple-touch-icon） |
+| `sitemap.hostname` | 生成 sitemap.xml 用的域名 —— **必须与最终访问地址一致** |
+
+> ⚠️ **域名写在两个地方**：`config.mts` 的 `sitemap.hostname` 和 `public/robots.txt` 里的 `Sitemap:` 行。将来换自定义域名时**两处都要改**，否则搜索引擎拿到的地图指向旧域名。
 
 ---
 
@@ -165,6 +172,28 @@ flowchart LR
 ```
 
 **约定**：每张图都写 `accTitle` + `accDescr`（无障碍与屏幕阅读器需要），节点 ID 用 `snake_case`，不要用内联 `style`（会破坏深色模式），配色用 `classDef`。
+
+### 站点图标
+
+图标是**位图**（ICO + PNG），不是 SVG —— 刻意如此。SVG 图标若用 `<text>` 引用汉字，会依赖**读者机器上恰好有中文字体**，否则显示成豆腐块。位图没有这个风险。
+
+重新生成（换了字或颜色时）：
+
+```bash
+FONT=$(fc-match -f '%{file}' 'Noto Sans CJK SC:style=Medium')
+
+convert -size 256x256 xc:'#2563eb' -fill white -gravity center \
+        -font "$FONT" -pointsize 176 -annotate +0+6 "知" /tmp/base.png
+convert -size 256x256 xc:none -fill white \
+        -draw "roundrectangle 0,0 255,255 52,52" /tmp/mask.png
+convert /tmp/base.png /tmp/mask.png -alpha off -compose CopyOpacity -composite /tmp/round.png
+
+convert /tmp/round.png -define icon:auto-resize=64,48,32,16 public/favicon.ico
+convert -size 180x180 xc:'#2563eb' -fill white -gravity center \
+        -font "$FONT" -pointsize 124 -annotate +0+4 "知" public/apple-touch-icon.png
+```
+
+> 📌 中间产物不要放进 `public/` —— 该目录下所有文件都会**原样复制进站点产物**并被部署。
 
 ---
 
