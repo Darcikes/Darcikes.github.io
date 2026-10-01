@@ -15,8 +15,14 @@ hero:
 
 features:
   - title: 技术
-    details: 虚拟化、Linux 环境搭建、踩坑记录 —— 都是实际动手之后写下来的。
+    details: 虚拟化、Linux 环境搭建、远程访问与工具选型 —— 都是实际动手之后写下来的。
     link: /tech/virtualization/ubuntu-kvm
+  - title: 精选
+    details: 挑过的 GitHub 好项目：终端、智能体、RSS、开发工具，每个都写清安装与用法。
+    link: /picks/
+  - title: 初识
+    details: 新领域的第一课。类比优先、表格优先、实测优先，从零讲起。
+    link: /first-look/
   - title: 持续补充
     details: 内容会随着实践不断增补，分类也会逐步展开。
     link: /about

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-_面向 AI Agent 的仓库交接文档 · 最后更新 2026-09-30_
+_面向 AI Agent 的仓库交接文档 · 最后更新 2026-10-01_
 
 ---
 
@@ -108,11 +108,23 @@ google-chrome --headless --disable-gpu --no-sandbox \
 > # 2) 用开发服务器验证
 > google-chrome --headless --disable-gpu --no-sandbox --window-size=1440,4000 \
 >   --virtual-time-budget=60000 --dump-dom "http://localhost:5173/tech/_verify.html" \
->   | grep -c 'class="mermaid-wrapper"'      # 应等于图表总数
+>   > /tmp/dom.html
 > # 3) rm tech/_verify.md
 > ```
 >
-> ⚠️ 判定时**不要**用 `grep 'error'` —— 注入的 CSS 里有大量 `--mermaid-error-bg`、`.error-message` 之类的**样式规则文本**，会造成假阳性。用 `class="mermaid-wrapper"` 计数更可靠。
+> ⚠️ **判定要两步，只数 `mermaid-wrapper` 会漏判** —— 渲染失败时 wrapper 依然存在，错误 UI（炸弹图标 + `Failed to render diagram`）在 wrapper **内部**。
+>
+> ```bash
+> # 数量对不对（每张图一个 wrapper，应等于图表总数）
+> grep -c 'class="mermaid-wrapper"' /tmp/dom.html
+>
+> # 有没有渲染失败（决定性判据，应为 0）
+> grep -c 'Syntax error in text\|Failed to render diagram' /tmp/dom.html
+> ```
+>
+> 仍然**不要**用宽泛的 `grep 'error'` —— 注入的 CSS 里有大量 `--mermaid-error-bg`、`.error-message` 之类的样式规则文本，会假阳性。上面两条是精确字符串，不受影响。
+>
+> 📌 **没有 wrapper、也没有错误文案 = 图在视口外没被处理**（`IntersectionObserver` 没触发），既不算成功也不算失败。Chrome 视口高度有上限，临时页图多时**每批放 2–3 张**分次验证，批次过大会让靠后的图永远不进视口。
 
 ---
 
@@ -172,6 +184,8 @@ flowchart LR
 ```
 
 **约定**：每张图都写 `accTitle` + `accDescr`（无障碍与屏幕阅读器需要），节点 ID 用 `snake_case`，不要用内联 `style`（会破坏深色模式），配色用 `classDef`。
+
+> ⚠️ **例外：`mindmap` 不支持 `accTitle`/`accDescr`。** 加上任一行都会导致 `Syntax error in text`、整张图渲染失败（mermaid 12.0.0 实测）。用 mindmap 时省略这两行，无障碍描述写进图前后的正文。
 
 ### 站点图标
 

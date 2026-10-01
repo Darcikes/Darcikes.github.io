@@ -8,7 +8,9 @@
 
 | 分类 | 说明 |
 |---|---|
-| 技术 | 虚拟化、Linux 环境搭建等实践记录 |
+| 技术 | 虚拟化、Linux 环境搭建、远程访问、工具选型与调研 |
+| 精选 | GitHub 精选集：收录验证过的开源项目与工具链，含安装与用法 |
+| 初识 | 新领域入门：面向零基础的第一课，从零讲起 |
 
 > 分类会随着积累逐步展开。
 
@@ -20,4 +22,4 @@
 
 ---
 
-*本站由 [VitePress](https://vitepress.dev/) 构建，托管于 GitHub Pages。*
+*本站由 [VitePress](https://vitepress.dev/) 构建，托管于 GitHub Pages；源码在 [GitHub 仓库](https://github.com/Darcikes/Darcikes.github.io)。*

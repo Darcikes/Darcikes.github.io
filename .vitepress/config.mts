@@ -45,9 +45,19 @@ export default defineConfig({
     // --------------------------------------------------------
     nav: [
       { text: '技术', link: '/tech/virtualization/ubuntu-kvm', activeMatch: '/tech/' },
+      { text: '精选', link: '/picks/', activeMatch: '/picks/' },
+      { text: '初识', link: '/first-look/', activeMatch: '/first-look/' },
       // { text: '心理', link: '/mind/', activeMatch: '/mind/' },  // ← 以后启用
       // { text: '中医', link: '/tcm/',  activeMatch: '/tcm/'  },  // ← 以后启用
       { text: '关于', link: '/about' },
+    ],
+
+    // --------------------------------------------------------
+    //  右上角社交图标（点击跳到对应地址）
+    //  可用图标名见 VitePress 文档；这里只放了 GitHub 仓库
+    // --------------------------------------------------------
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/Darcikes/Darcikes.github.io' },
     ],
 
     // --------------------------------------------------------
@@ -67,6 +77,71 @@ export default defineConfig({
           text: '部署与托管',
           items: [
             { text: '用 GitHub Pages 搭建静态知识库', link: '/tech/deploy/github-pages' },
+            { text: 'Ubuntu 24.04 远程访问配置（Mac 客户端）', link: '/tech/deploy/ubuntu-remote-access' },
+            { text: 'MCP Gateway 部署指南', link: '/tech/deploy/mcp-gateway' },
+          ],
+        },
+        {
+          text: '工具与选型',
+          items: [
+            { text: 'macOS Git 可视化工具调研', link: '/tech/tools/macos-git-gui-clients' },
+            { text: 'Orca 运行机制与基础使用技巧', link: '/tech/tools/orca-worktree-mechanics' },
+            { text: 'opencli 与 Orca：浏览器自动化链路选型', link: '/tech/tools/opencli-vs-orca-browser-automation' },
+            { text: 'Vim 操作手册', link: '/tech/tools/vim' },
+            { text: 'lazygit 操作手册', link: '/tech/tools/lazygit' },
+          ],
+        },
+        {
+          text: 'iOS 与 App Store',
+          items: [
+            { text: 'Apple IAP 沙盒支付错误排查', link: '/tech/ios/apple-iap-sandbox-error-fix' },
+          ],
+        },
+      ],
+      '/picks/': [
+        {
+          text: '精选集',
+          items: [
+            { text: '收录清单', link: '/picks/' },
+          ],
+        },
+        {
+          text: 'AI 智能体',
+          items: [
+            { text: 'Agency Agents（英文上游）', link: '/picks/agency-agents' },
+            { text: 'Agency Agents 中文版', link: '/picks/agency-agents-zh' },
+            { text: 'baoyu-skills 提效技能集', link: '/picks/baoyu-skills' },
+          ],
+        },
+        {
+          text: '开发工具',
+          items: [
+            { text: 'Ghostty 终端', link: '/picks/ghostty' },
+            { text: 'Codex++ 桌面增强', link: '/picks/codex-plus-plus' },
+            { text: 'codebase-memory-mcp 代码知识图谱', link: '/picks/codebase-memory-mcp' },
+            { text: 'Claude CLI 状态栏与用量统计', link: '/picks/claude-cli-statusline' },
+          ],
+        },
+        {
+          text: '阅读与搜索',
+          items: [
+            { text: 'RSS 工具链', link: '/picks/rss-ecosystem' },
+            { text: 'GitHub 搜索', link: '/picks/github-search' },
+          ],
+        },
+        {
+          text: '写作规范',
+          items: [
+            { text: 'Markdown + Mermaid 写作标准', link: '/picks/markdown-mermaid-writing' },
+          ],
+        },
+      ],
+      '/first-look/': [
+        {
+          text: '初识',
+          items: [
+            { text: '用 Agent 操作浏览器（CDP）', link: '/first-look/agent-browser-cdp' },
+            { text: 'GitHub Bug 修复全流程', link: '/first-look/github-bug-fix-workflow' },
           ],
         },
       ],
