@@ -1,0 +1,205 @@
+/* ============================================================
+   Mermaid 图表补充样式
+   Mermaid 自身不输出 rx/ry，节点永远是直角矩形。
+   这里用 SVG2 的 CSS 几何属性补上圆角（Chrome / Safari / Firefox 均支持）。
+   ============================================================ */
+
+.mermaid-wrapper .node rect,
+.mermaid-wrapper .cluster rect,
+.mermaid-wrapper .basic.label-container {
+  rx: 7px;
+  ry: 7px;
+}
+
+/* 节点内文字略微收紧行高，中文多行时更整齐 */
+.mermaid-wrapper .nodeLabel,
+.mermaid-wrapper .label {
+  line-height: 1.45;
+}
+/* ============================================================
+  修正 Mermaid 对 mindmap / timeline / radar 的硬编码配色
+
+  这三种类型不受 themeVariables 控制 —— Mermaid 给它们内置了一套
+  色相环轮转配色 hsl(H, 24%, 71%)，饱和度高，与本站的灰白主题割裂。
+  这里保持色相不变、降低饱和度并提高明度：既保留分支区分度，又与主题协调。
+  因原规则带 ID 选择器（特异度更高），必须用 !important 覆盖。
+  ============================================================ */
+
+/* ── 浅色：极浅的同色相底 + 原有深色文字 ── */
+.mermaid-wrapper .section-0 rect,
+.mermaid-wrapper .section-0 path,
+.mermaid-wrapper .section-0 circle,
+.mermaid-wrapper .section-0 polygon,
+.mermaid-wrapper .section-0 { fill: hsl(216, 26%, 94%) !important; }
+.mermaid-wrapper .section-edge-0 { stroke: hsl(216, 24%, 87%) !important; }
+.mermaid-wrapper .section-1 rect,
+.mermaid-wrapper .section-1 path,
+.mermaid-wrapper .section-1 circle,
+.mermaid-wrapper .section-1 polygon,
+.mermaid-wrapper .section-1 { fill: hsl(220, 26%, 94%) !important; }
+.mermaid-wrapper .section-edge-1 { stroke: hsl(220, 24%, 87%) !important; }
+.mermaid-wrapper .section-2 rect,
+.mermaid-wrapper .section-2 path,
+.mermaid-wrapper .section-2 circle,
+.mermaid-wrapper .section-2 polygon,
+.mermaid-wrapper .section-2 { fill: hsl(246, 26%, 94%) !important; }
+.mermaid-wrapper .section-edge-2 { stroke: hsl(246, 24%, 87%) !important; }
+.mermaid-wrapper .section-3 rect,
+.mermaid-wrapper .section-3 path,
+.mermaid-wrapper .section-3 circle,
+.mermaid-wrapper .section-3 polygon,
+.mermaid-wrapper .section-3 { fill: hsl(276, 26%, 94%) !important; }
+.mermaid-wrapper .section-edge-3 { stroke: hsl(276, 24%, 87%) !important; }
+.mermaid-wrapper .section-4 rect,
+.mermaid-wrapper .section-4 path,
+.mermaid-wrapper .section-4 circle,
+.mermaid-wrapper .section-4 polygon,
+.mermaid-wrapper .section-4 { fill: hsl(306, 26%, 94%) !important; }
+.mermaid-wrapper .section-edge-4 { stroke: hsl(306, 24%, 87%) !important; }
+.mermaid-wrapper .section-5 rect,
+.mermaid-wrapper .section-5 path,
+.mermaid-wrapper .section-5 circle,
+.mermaid-wrapper .section-5 polygon,
+.mermaid-wrapper .section-5 { fill: hsl(336, 26%, 94%) !important; }
+.mermaid-wrapper .section-edge-5 { stroke: hsl(336, 24%, 87%) !important; }
+.mermaid-wrapper .section-6 rect,
+.mermaid-wrapper .section-6 path,
+.mermaid-wrapper .section-6 circle,
+.mermaid-wrapper .section-6 polygon,
+.mermaid-wrapper .section-6 { fill: hsl(6, 26%, 94%) !important; }
+.mermaid-wrapper .section-edge-6 { stroke: hsl(6, 24%, 87%) !important; }
+.mermaid-wrapper .section-7 rect,
+.mermaid-wrapper .section-7 path,
+.mermaid-wrapper .section-7 circle,
+.mermaid-wrapper .section-7 polygon,
+.mermaid-wrapper .section-7 { fill: hsl(66, 26%, 94%) !important; }
+.mermaid-wrapper .section-edge-7 { stroke: hsl(66, 24%, 87%) !important; }
+.mermaid-wrapper .section-8 rect,
+.mermaid-wrapper .section-8 path,
+.mermaid-wrapper .section-8 circle,
+.mermaid-wrapper .section-8 polygon,
+.mermaid-wrapper .section-8 { fill: hsl(126, 26%, 94%) !important; }
+.mermaid-wrapper .section-edge-8 { stroke: hsl(126, 24%, 87%) !important; }
+.mermaid-wrapper .section-9 rect,
+.mermaid-wrapper .section-9 path,
+.mermaid-wrapper .section-9 circle,
+.mermaid-wrapper .section-9 polygon,
+.mermaid-wrapper .section-9 { fill: hsl(156, 26%, 94%) !important; }
+.mermaid-wrapper .section-edge-9 { stroke: hsl(156, 24%, 87%) !important; }
+.mermaid-wrapper .section-10 rect,
+.mermaid-wrapper .section-10 path,
+.mermaid-wrapper .section-10 circle,
+.mermaid-wrapper .section-10 polygon,
+.mermaid-wrapper .section-10 { fill: hsl(186, 26%, 94%) !important; }
+.mermaid-wrapper .section-edge-10 { stroke: hsl(186, 24%, 87%) !important; }
+
+.mermaid-wrapper .section-root rect,
+.mermaid-wrapper .section-root circle,
+.mermaid-wrapper .section-root polygon,
+.mermaid-wrapper .section--1 rect,
+.mermaid-wrapper .section--1 circle,
+.mermaid-wrapper .section--1 polygon { fill: hsl(216, 24%, 90%) !important; }
+
+/* radar 的曲线要看得见，饱和度不能压太狠 */
+.mermaid-wrapper .radarCurve-0 { color: hsl(216, 42%, 52%) !important; fill: hsl(216, 42%, 52%) !important; }
+.mermaid-wrapper .radarLegendBox-0 { fill: hsl(216, 42%, 52%) !important; }
+.mermaid-wrapper .radarCurve-1 { color: hsl(220, 42%, 52%) !important; fill: hsl(220, 42%, 52%) !important; }
+.mermaid-wrapper .radarLegendBox-1 { fill: hsl(220, 42%, 52%) !important; }
+.mermaid-wrapper .radarCurve-2 { color: hsl(246, 42%, 52%) !important; fill: hsl(246, 42%, 52%) !important; }
+.mermaid-wrapper .radarLegendBox-2 { fill: hsl(246, 42%, 52%) !important; }
+.mermaid-wrapper .radarCurve-3 { color: hsl(276, 42%, 52%) !important; fill: hsl(276, 42%, 52%) !important; }
+.mermaid-wrapper .radarLegendBox-3 { fill: hsl(276, 42%, 52%) !important; }
+.mermaid-wrapper .radarCurve-4 { color: hsl(306, 42%, 52%) !important; fill: hsl(306, 42%, 52%) !important; }
+.mermaid-wrapper .radarLegendBox-4 { fill: hsl(306, 42%, 52%) !important; }
+.mermaid-wrapper .radarCurve-5 { color: hsl(336, 42%, 52%) !important; fill: hsl(336, 42%, 52%) !important; }
+.mermaid-wrapper .radarLegendBox-5 { fill: hsl(336, 42%, 52%) !important; }
+
+.mermaid-wrapper .radarGraticule { fill: #f2f4f7 !important; stroke: #e2e2e3 !important; }
+
+/* ── 深色：同色相的深底 ── */
+.dark .mermaid-wrapper .section-0 rect,
+.dark .mermaid-wrapper .section-0 path,
+.dark .mermaid-wrapper .section-0 circle,
+.dark .mermaid-wrapper .section-0 polygon { fill: hsl(216, 18%, 24%) !important; }
+.dark .mermaid-wrapper .section-edge-0 { stroke: hsl(216, 18%, 38%) !important; }
+.dark .mermaid-wrapper .section-1 rect,
+.dark .mermaid-wrapper .section-1 path,
+.dark .mermaid-wrapper .section-1 circle,
+.dark .mermaid-wrapper .section-1 polygon { fill: hsl(220, 18%, 24%) !important; }
+.dark .mermaid-wrapper .section-edge-1 { stroke: hsl(220, 18%, 38%) !important; }
+.dark .mermaid-wrapper .section-2 rect,
+.dark .mermaid-wrapper .section-2 path,
+.dark .mermaid-wrapper .section-2 circle,
+.dark .mermaid-wrapper .section-2 polygon { fill: hsl(246, 18%, 24%) !important; }
+.dark .mermaid-wrapper .section-edge-2 { stroke: hsl(246, 18%, 38%) !important; }
+.dark .mermaid-wrapper .section-3 rect,
+.dark .mermaid-wrapper .section-3 path,
+.dark .mermaid-wrapper .section-3 circle,
+.dark .mermaid-wrapper .section-3 polygon { fill: hsl(276, 18%, 24%) !important; }
+.dark .mermaid-wrapper .section-edge-3 { stroke: hsl(276, 18%, 38%) !important; }
+.dark .mermaid-wrapper .section-4 rect,
+.dark .mermaid-wrapper .section-4 path,
+.dark .mermaid-wrapper .section-4 circle,
+.dark .mermaid-wrapper .section-4 polygon { fill: hsl(306, 18%, 24%) !important; }
+.dark .mermaid-wrapper .section-edge-4 { stroke: hsl(306, 18%, 38%) !important; }
+.dark .mermaid-wrapper .section-5 rect,
+.dark .mermaid-wrapper .section-5 path,
+.dark .mermaid-wrapper .section-5 circle,
+.dark .mermaid-wrapper .section-5 polygon { fill: hsl(336, 18%, 24%) !important; }
+.dark .mermaid-wrapper .section-edge-5 { stroke: hsl(336, 18%, 38%) !important; }
+.dark .mermaid-wrapper .section-6 rect,
+.dark .mermaid-wrapper .section-6 path,
+.dark .mermaid-wrapper .section-6 circle,
+.dark .mermaid-wrapper .section-6 polygon { fill: hsl(6, 18%, 24%) !important; }
+.dark .mermaid-wrapper .section-edge-6 { stroke: hsl(6, 18%, 38%) !important; }
+.dark .mermaid-wrapper .section-7 rect,
+.dark .mermaid-wrapper .section-7 path,
+.dark .mermaid-wrapper .section-7 circle,
+.dark .mermaid-wrapper .section-7 polygon { fill: hsl(66, 18%, 24%) !important; }
+.dark .mermaid-wrapper .section-edge-7 { stroke: hsl(66, 18%, 38%) !important; }
+.dark .mermaid-wrapper .section-8 rect,
+.dark .mermaid-wrapper .section-8 path,
+.dark .mermaid-wrapper .section-8 circle,
+.dark .mermaid-wrapper .section-8 polygon { fill: hsl(126, 18%, 24%) !important; }
+.dark .mermaid-wrapper .section-edge-8 { stroke: hsl(126, 18%, 38%) !important; }
+.dark .mermaid-wrapper .section-9 rect,
+.dark .mermaid-wrapper .section-9 path,
+.dark .mermaid-wrapper .section-9 circle,
+.dark .mermaid-wrapper .section-9 polygon { fill: hsl(156, 18%, 24%) !important; }
+.dark .mermaid-wrapper .section-edge-9 { stroke: hsl(156, 18%, 38%) !important; }
+.dark .mermaid-wrapper .section-10 rect,
+.dark .mermaid-wrapper .section-10 path,
+.dark .mermaid-wrapper .section-10 circle,
+.dark .mermaid-wrapper .section-10 polygon { fill: hsl(186, 18%, 24%) !important; }
+.dark .mermaid-wrapper .section-edge-10 { stroke: hsl(186, 18%, 38%) !important; }
+
+.dark .mermaid-wrapper .section-root rect,
+.dark .mermaid-wrapper .section-root circle,
+.dark .mermaid-wrapper .section--1 rect,
+.dark .mermaid-wrapper .section--1 circle { fill: hsl(216, 16%, 28%) !important; }
+.dark .mermaid-wrapper .radarCurve-0 { color: hsl(216, 50%, 68%) !important; fill: hsl(216, 50%, 68%) !important; }
+.dark .mermaid-wrapper .radarLegendBox-0 { fill: hsl(216, 50%, 68%) !important; }
+.dark .mermaid-wrapper .radarCurve-1 { color: hsl(220, 50%, 68%) !important; fill: hsl(220, 50%, 68%) !important; }
+.dark .mermaid-wrapper .radarLegendBox-1 { fill: hsl(220, 50%, 68%) !important; }
+.dark .mermaid-wrapper .radarCurve-2 { color: hsl(246, 50%, 68%) !important; fill: hsl(246, 50%, 68%) !important; }
+.dark .mermaid-wrapper .radarLegendBox-2 { fill: hsl(246, 50%, 68%) !important; }
+.dark .mermaid-wrapper .radarCurve-3 { color: hsl(276, 50%, 68%) !important; fill: hsl(276, 50%, 68%) !important; }
+.dark .mermaid-wrapper .radarLegendBox-3 { fill: hsl(276, 50%, 68%) !important; }
+.dark .mermaid-wrapper .radarCurve-4 { color: hsl(306, 50%, 68%) !important; fill: hsl(306, 50%, 68%) !important; }
+.dark .mermaid-wrapper .radarLegendBox-4 { fill: hsl(306, 50%, 68%) !important; }
+.dark .mermaid-wrapper .radarCurve-5 { color: hsl(336, 50%, 68%) !important; fill: hsl(336, 50%, 68%) !important; }
+.dark .mermaid-wrapper .radarLegendBox-5 { fill: hsl(336, 50%, 68%) !important; }
+.dark .mermaid-wrapper .radarGraticule { fill: #242429 !important; stroke: #3c3f44 !important; }
+
+/* 补漏：Mermaid 还会用负深度类名（.section-edge--N）和 line 元素渲染更深的层级，
+   这两种前面没覆盖到 */
+.mermaid-wrapper [class*="section-edge--"],
+.mermaid-wrapper [class*="section--"] line,
+.mermaid-wrapper [class*="section-"] line {
+  stroke: hsl(216, 22%, 87%) !important;
+}
+.dark .mermaid-wrapper [class*="section-edge--"],
+.dark .mermaid-wrapper [class*="section--"] line,
+.dark .mermaid-wrapper [class*="section-"] line {
+  stroke: hsl(216, 18%, 38%) !important;
+}

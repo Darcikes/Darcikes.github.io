@@ -54,8 +54,11 @@ _面向 AI Agent 的仓库交接文档 · 最后更新 2026-10-01_
 │   ├── apple-touch-icon.png    iOS 主屏图标 180×180
 │   └── robots.txt              爬虫规则 + sitemap 指引
 └── .vitepress/
-    ├── config.mts              ★ 唯一配置入口
-    └── theme/index.ts          自定义主题：挂载 Mermaid 渲染器
+    ├── config.mts              ★ 唯一配置入口（标题/导航/侧边栏）
+    └── theme/
+        ├── index.ts            自定义主题：Mermaid 渲染器 + 主题色板 + 首页动效
+        ├── custom.css          Mermaid 外观补丁（节点圆角、非流程图类型的配色）
+        └── PixelDust.vue       首页 hero 前的像素尘埃动效
 ```
 
 ### `.vitepress/config.mts` 是核心
@@ -208,6 +211,51 @@ convert -size 180x180 xc:'#2563eb' -fill white -gravity center \
 ```
 
 > 📌 中间产物不要放进 `public/` —— 该目录下所有文件都会**原样复制进站点产物**并被部署。
+
+### 图表主题
+
+Mermaid 的外观**全部集中在 `.vitepress/theme/` 里**，改一次全站所有图表生效，**不需要逐篇文档调整**：
+
+| 想改什么 | 改哪里 |
+| ------------------ | ------------------------------------------------------ |
+| 配色（浅色 / 深色） | `theme/index.ts` 的 `lightConfig` / `darkConfig` |
+| 字体 | 同上的 `FONT` 常量（必须含中文字体，见下） |
+| 节点圆角 | `theme/custom.css` 的 `rx: 7px` |
+| 疏密、换行宽度 | `theme/index.ts` 的 `flowchart` 对象 |
+| 坐标轴/工具栏样式 | `.mermaid-container` 上的 `--mermaid-control-*` CSS 变量 |
+
+> ⚠️ **换配色时注意两点：**
+> 1. **深浅两套的 key 集合必须完全一致。** 切换主题时是**深合并**，缺 key 会残留另一套的旧值。
+> 2. **只能填 hex 颜色**，`red` 这类颜色名无效。
+
+**为什么需要这套配置**：插件 `vitepress-mermaid-renderer` 初始化时会硬塞 `theme:"default"`，把 Mermaid 12 的新外观整个盖掉；且它的默认字体 `"trebuchet ms"` **不含任何中文字形**，中文只能靠系统兜底，导致图表字体与正文不一致、换行点也算错。现在通过给 `createMermaidRenderer()` 传 `MermaidConfig` 覆盖，并用 `useData().isDark` 的 `watch` 跟随深浅色切换（渲染器是单例，重复调用会深合并并重渲染）。
+
+**已知残留问题**：Mermaid 对中日韩字符的**宽度测量偏小**，中英混排的长标签最后一个字符会贴到边框上。这是 Mermaid 自身问题，改配置无法解决 —— 在源文件里手动加 `<br/>` 断行即可。
+
+### 写图表时必须遵守
+
+**外观由主题统一控制。文章里不要自己指定全局样式** —— 否则那张图会和其余四十多张割裂。
+
+| ✅ 应该 | ❌ 不要 | 为什么 |
+| ------------------------ | ------------------------------- | -------------------------------------------------------- |
+| 不写颜色，交给主题 | **`%%{init}%%` 指令** | 它会**逐图覆盖站点主题**，那张图立刻和全站不一致 |
+| 需要语义配色时用 `classDef` | **内联 `style="fill:#xxx"`** | 内联样式优先级最高，且无法跟随深色模式 |
+| 颜色从下表取 | 随手写十六进制值 | 配色漂移，越写越乱 |
+| 语义名用 `snake_case` | `A`、`node1`、`box2` | 图源码要能被读懂和检索 |
+
+**标准语义色板**（全站在用，只准这五组）：
+
+| 语义 | `classDef` |
+| ---------- | ---------------------------------------------------------------------------- |
+| 成功 / 正向 | `fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d` |
+| 信息 / 强调 | `fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a5f` |
+| 警示 / 待定 | `fill:#fef9c3,stroke:#ca8a04,stroke-width:2px,color:#713f12` |
+| 突出 / 次要 | `fill:#ede9fe,stroke:#7c3aed,stroke-width:2px,color:#3b0764` |
+| 失败 / 危险 | `fill:#fee2e2,stroke:#dc2626,stroke-width:2px,color:#7f1d1d` |
+
+> 📌 **mindmap / timeline / radar 的配色由 `custom.css` 统一接管。** Mermaid 给这三种硬编码了一套色相环配色（`hsl(H, 24%, 71%)`），**不受 `themeVariables` 控制**，只能靠 CSS `!important` 覆盖。
+>
+> 如果你看到这三种图颜色不对，**那是 `custom.css` 的职责，不要去改文章**；同理，也不要因为"颜色看起来是硬编码的"就删掉 `custom.css` 里那段 —— 那些规则是必要的。
 
 ---
 
