@@ -142,6 +142,7 @@ export default defineConfig({
           items: [
             { text: '用 Agent 操作浏览器（CDP）', link: '/first-look/agent-browser-cdp' },
             { text: 'GitHub Bug 修复全流程', link: '/first-look/github-bug-fix-workflow' },
+            { text: 'Claude Code 后台会话与密钥串号排查', link: '/first-look/claude-code-daemon-auth' },
           ],
         },
       ],
