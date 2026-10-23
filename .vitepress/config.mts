@@ -86,6 +86,7 @@ export default defineConfig({
           items: [
             { text: 'macOS Git 可视化工具调研', link: '/tech/tools/macos-git-gui-clients' },
             { text: 'Orca 运行机制与基础使用技巧', link: '/tech/tools/orca-worktree-mechanics' },
+            { text: '从 Claude Code 迁移到 Hermes Agent', link: '/tech/tools/claude-to-hermes-migration' },
             { text: 'opencli 与 Orca：浏览器自动化链路选型', link: '/tech/tools/opencli-vs-orca-browser-automation' },
             { text: 'Vim 操作手册', link: '/tech/tools/vim' },
             { text: 'lazygit 操作手册', link: '/tech/tools/lazygit' },
