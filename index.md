@@ -7,23 +7,23 @@ hero:
   tagline: 把散落在各处的记录，聚拢到一处
   actions:
     - theme: brand
-      text: 开始阅读
-      link: /tech/virtualization/ubuntu-kvm
+      text: 内容地图
+      link: /map
     - theme: alt
       text: 关于本站
       link: /about
 
 features:
-  - title: 技术
-    details: 虚拟化、Linux 环境搭建、远程访问与工具选型 —— 都是实际动手之后写下来的。
-    link: /tech/virtualization/ubuntu-kvm
-  - title: 精选
-    details: 挑过的 GitHub 好项目：终端、智能体、RSS、开发工具，每个都写清安装与用法。
-    link: /picks/
-  - title: 初识
-    details: 新领域的第一课。类比优先、表格优先、实测优先，从零讲起。
-    link: /first-look/
-  - title: 持续补充
-    details: 内容会随着实践不断增补，分类也会逐步展开。
-    link: /about
+  - title: 基础设施
+    details: 虚拟机、远程访问、部署与托管 —— 让一台机器可用、可访问、可发布。
+    link: /infra/
+  - title: AI Agent
+    details: Claude Code / Hermes / Codex 的迁移、皮肤、凭据排错与技能生态。
+    link: /ai/
+  - title: 自动化与编排
+    details: worktree 编排、浏览器自动化、代码索引，把 agent 接进真实环境。
+    link: /automation/
+  - title: 本地开发
+    details: 编辑器、版本控制与终端：每天坐在电脑前用的那几样。
+    link: /dev/
 ---

@@ -289,7 +289,7 @@ trace 里的属性名是 `worktree.create.phase.<阶段>_ms`，另有 `worktree.
 
 ## 🔗 相关
 
-- [opencli 与 Orca：三条浏览器自动化链路怎么选](./opencli-vs-orca-browser-automation.md)
+- [opencli 与 Orca：三条浏览器自动化链路怎么选](./opencli-vs-orca.md)
 
 ---
 

@@ -500,8 +500,8 @@ claude rm <id>         # 不需要就清理
 
 ## 🔗 相关
 
-- [Claude CLI 状态栏与用量统计](../picks/claude-cli-statusline.md) —— 用量与余额的可视化，出问题时最先看到的往往是它
-- [Orca 运行机制与基础使用技巧](../tech/tools/orca-worktree-mechanics.md) —— worktree 与多 Agent 编排，后台会话的常见来源之一
+- [Claude CLI 状态栏与用量统计](./claude-cli-statusline.md) —— 用量与余额的可视化，出问题时最先看到的往往是它
+- [Orca 运行机制与基础使用技巧](../automation/orca-worktree-mechanics.md) —— worktree 与多 Agent 编排，后台会话的常见来源之一
 
 ## 参考资料
 

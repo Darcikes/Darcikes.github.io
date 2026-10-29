@@ -380,7 +380,7 @@ flowchart TB
 
 ## 🔗 相关
 
-- [opencli 与 Orca：三条浏览器自动化链路怎么选](../tech/tools/opencli-vs-orca-browser-automation.md) —— 换一个视角看「该用哪条链路」
+- [opencli 与 Orca：三条浏览器自动化链路怎么选](./opencli-vs-orca.md) —— 换一个视角看「该用哪条链路」
 
 ---
 

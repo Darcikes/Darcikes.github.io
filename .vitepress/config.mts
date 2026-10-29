@@ -27,6 +27,8 @@ export default defineConfig({
   // ----------------------------------------------------------
   sitemap: {
     hostname: 'https://darcikes.github.io',
+    // 404 只是重定向页，不进 sitemap
+    transformItems: (items) => items.filter((item) => !item.url.startsWith('404')),
   },
 
   // ----------------------------------------------------------
@@ -35,8 +37,8 @@ export default defineConfig({
   // ----------------------------------------------------------
   srcExclude: ['README.md', 'AGENTS.md', 'CLAUDE.md', 'templates/**'],
 
-  // 暂时忽略指向未迁移文档的链接，避免构建中断
-  ignoreDeadLinks: true,
+  // 迁移完成后开启死链检查：站内相对链接必须有效
+  ignoreDeadLinks: false,
 
   themeConfig: {
     // --------------------------------------------------------
@@ -44,11 +46,19 @@ export default defineConfig({
     //  新增分类：加一行 + 在下面 sidebar 里加一段
     // --------------------------------------------------------
     nav: [
-      { text: '技术', link: '/tech/virtualization/ubuntu-kvm', activeMatch: '/tech/' },
-      { text: '精选', link: '/picks/', activeMatch: '/picks/' },
-      { text: '初识', link: '/first-look/', activeMatch: '/first-look/' },
-      // { text: '心理', link: '/mind/', activeMatch: '/mind/' },  // ← 以后启用
-      // { text: '中医', link: '/tcm/',  activeMatch: '/tcm/'  },  // ← 以后启用
+      { text: '内容地图', link: '/map' },
+      { text: 'AI', link: '/ai/', activeMatch: '/ai/' },
+      { text: '基础设施', link: '/infra/', activeMatch: '/infra/' },
+      { text: '自动化', link: '/automation/', activeMatch: '/automation/' },
+      {
+        text: '更多',
+        items: [
+          { text: '本地开发', link: '/dev/' },
+          { text: '应用与平台', link: '/platform/' },
+          { text: '写作', link: '/writing/' },
+          { text: '专题', link: '/series/hermes' },
+        ],
+      },
       { text: '关于', link: '/about' },
     ],
 
@@ -65,91 +75,108 @@ export default defineConfig({
     //  新增分类：在这里加一个 '/新分类/' 段落
     // --------------------------------------------------------
     sidebar: {
-      '/tech/': [
+      '/map': [
         {
-          text: '虚拟化',
+          text: '内容地图',
+          items: [{ text: '全站索引', link: '/map' }],
+        },
+      ],
+      '/infra/': [
+        {
+          text: '基础设施',
           items: [
-            { text: 'Ubuntu 上安装虚拟机（KVM/QEMU）', link: '/tech/virtualization/ubuntu-kvm' },
-            { text: 'Omarchy 虚拟机安装记录', link: '/tech/virtualization/omarchy-vm' },
+            { text: '领域概览', link: '/infra/' },
+            { text: 'Ubuntu 上安装虚拟机（KVM/QEMU）', link: '/infra/ubuntu-kvm' },
+            { text: 'Omarchy 虚拟机安装记录', link: '/infra/omarchy-vm' },
+            { text: 'Ubuntu 24.04 远程访问配置', link: '/infra/ubuntu-remote-access' },
+            { text: '用 GitHub Pages 搭建静态知识库', link: '/infra/github-pages' },
+            { text: 'MCP Gateway 部署指南', link: '/infra/mcp-gateway' },
           ],
         },
         {
-          text: '部署与托管',
-          items: [
-            { text: '用 GitHub Pages 搭建静态知识库', link: '/tech/deploy/github-pages' },
-            { text: 'Ubuntu 24.04 远程访问配置（Mac 客户端）', link: '/tech/deploy/ubuntu-remote-access' },
-            { text: 'MCP Gateway 部署指南', link: '/tech/deploy/mcp-gateway' },
-          ],
+          text: '相关专题',
+          items: [{ text: 'KVM 实验室', link: '/series/kvm-lab' }],
         },
+      ],
+      '/dev/': [
         {
-          text: '工具与选型',
+          text: '本地开发',
           items: [
-            { text: 'macOS Git 可视化工具调研', link: '/tech/tools/macos-git-gui-clients' },
-            { text: 'Orca 运行机制与基础使用技巧', link: '/tech/tools/orca-worktree-mechanics' },
-            { text: '从 Claude Code 迁移到 Hermes Agent', link: '/tech/tools/claude-to-hermes-migration' },
-            { text: 'Hermes Agent 皮肤（skin）配置详解', link: '/tech/tools/hermes-skin-theme' },
-            { text: 'opencli 与 Orca：浏览器自动化链路选型', link: '/tech/tools/opencli-vs-orca-browser-automation' },
-            { text: 'Vim 操作手册', link: '/tech/tools/vim' },
-            { text: 'lazygit 操作手册', link: '/tech/tools/lazygit' },
-          ],
-        },
-        {
-          text: 'iOS 与 App Store',
-          items: [
-            { text: 'Apple IAP 沙盒支付错误排查', link: '/tech/ios/apple-iap-sandbox-error-fix' },
+            { text: '领域概览', link: '/dev/' },
+            { text: 'Vim 操作手册', link: '/dev/vim' },
+            { text: 'lazygit 操作手册', link: '/dev/lazygit' },
+            { text: 'macOS Git 可视化工具调研', link: '/dev/macos-git-gui-clients' },
+            { text: 'Ghostty 终端', link: '/dev/ghostty' },
           ],
         },
       ],
-      '/picks/': [
+      '/ai/': [
         {
-          text: '精选集',
+          text: 'AI Agent',
           items: [
-            { text: '收录清单', link: '/picks/' },
+            { text: '领域概览', link: '/ai/' },
+            { text: '从 Claude Code 迁移到 Hermes Agent', link: '/ai/claude-to-hermes-migration' },
+            { text: 'Hermes Agent 皮肤（skin）配置详解', link: '/ai/hermes-skin-theme' },
+            { text: 'Claude Code 后台会话与密钥串号', link: '/ai/claude-code-daemon-auth' },
+            { text: 'Claude CLI 状态栏与用量统计', link: '/ai/claude-cli-statusline' },
+            { text: 'Codex++ 桌面增强', link: '/ai/codex-plus-plus' },
+            { text: 'Agency Agents（英文上游）', link: '/ai/agency-agents' },
+            { text: 'Agency Agents 中文版', link: '/ai/agency-agents-zh' },
+            { text: 'baoyu-skills 提效技能集', link: '/ai/baoyu-skills' },
           ],
         },
         {
-          text: 'AI 智能体',
+          text: '相关专题',
+          items: [{ text: 'Hermes 上手', link: '/series/hermes' }],
+        },
+      ],
+      '/automation/': [
+        {
+          text: '自动化与编排',
           items: [
-            { text: 'Agency Agents（英文上游）', link: '/picks/agency-agents' },
-            { text: 'Agency Agents 中文版', link: '/picks/agency-agents-zh' },
-            { text: 'baoyu-skills 提效技能集', link: '/picks/baoyu-skills' },
+            { text: '领域概览', link: '/automation/' },
+            { text: 'Orca 运行机制与基础使用技巧', link: '/automation/orca-worktree-mechanics' },
+            { text: 'opencli 与 Orca：三条链路怎么选', link: '/automation/opencli-vs-orca' },
+            { text: '用 Agent 操作浏览器（CDP）', link: '/automation/agent-browser-cdp' },
+            { text: 'codebase-memory-mcp 代码知识图谱', link: '/automation/codebase-memory-mcp' },
+            { text: 'GitHub Bug 修复全流程', link: '/automation/github-bug-fix-workflow' },
           ],
         },
         {
-          text: '开发工具',
-          items: [
-            { text: 'Ghostty 终端', link: '/picks/ghostty' },
-            { text: 'Codex++ 桌面增强', link: '/picks/codex-plus-plus' },
-            { text: 'codebase-memory-mcp 代码知识图谱', link: '/picks/codebase-memory-mcp' },
-            { text: 'Claude CLI 状态栏与用量统计', link: '/picks/claude-cli-statusline' },
-          ],
+          text: '相关专题',
+          items: [{ text: '浏览器自动化', link: '/series/browser-automation' }],
         },
+      ],
+      '/platform/': [
         {
-          text: '阅读与搜索',
+          text: '应用与平台',
           items: [
-            { text: 'RSS 工具链', link: '/picks/rss-ecosystem' },
-            { text: 'GitHub 搜索', link: '/picks/github-search' },
-          ],
-        },
-        {
-          text: '写作规范',
-          items: [
-            { text: 'Markdown + Mermaid 写作标准', link: '/picks/markdown-mermaid-writing' },
+            { text: '领域概览', link: '/platform/' },
+            { text: 'Apple IAP 沙盒支付错误排查', link: '/platform/apple-iap' },
+            { text: 'GitHub 搜索', link: '/platform/github-search' },
+            { text: 'RSS 工具链', link: '/platform/rss' },
           ],
         },
       ],
-      '/first-look/': [
+      '/writing/': [
         {
-          text: '初识',
+          text: '写作与知识管理',
           items: [
-            { text: '用 Agent 操作浏览器（CDP）', link: '/first-look/agent-browser-cdp' },
-            { text: 'GitHub Bug 修复全流程', link: '/first-look/github-bug-fix-workflow' },
-            { text: 'Claude Code 后台会话与密钥串号排查', link: '/first-look/claude-code-daemon-auth' },
+            { text: '领域概览', link: '/writing/' },
+            { text: 'Markdown + Mermaid 写作标准', link: '/writing/markdown-mermaid-writing' },
           ],
         },
       ],
-      // '/mind/': [ ... ],   // ← 以后启用
-      // '/tcm/':  [ ... ],   // ← 以后启用
+      '/series/': [
+        {
+          text: '专题',
+          items: [
+            { text: 'Hermes 上手', link: '/series/hermes' },
+            { text: 'KVM 实验室', link: '/series/kvm-lab' },
+            { text: '浏览器自动化', link: '/series/browser-automation' },
+          ],
+        },
+      ],
     },
 
     // 本地全文搜索（VitePress 自带，不依赖第三方服务）

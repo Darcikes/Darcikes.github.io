@@ -369,7 +369,7 @@ brew upgrade ccusage            # 恢复官方版
 
 ## 🔗 相关
 
-- [Claude CLI 美化配置 —— ccusage + ccstatusline 状态栏](../picks/claude-cli-statusline.md) —— 本文修的那个工具，就是这篇里配的
+- [Claude CLI 美化配置 —— ccusage + ccstatusline 状态栏](../ai/claude-cli-statusline.md) —— 本文修的那个工具，就是这篇里配的
 
 ---
 

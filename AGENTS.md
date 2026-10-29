@@ -1,6 +1,6 @@
 # AGENTS.md
 
-_面向 AI Agent 的仓库交接文档 · 最后更新 2026-10-01_
+_面向 AI Agent 的仓库交接文档 · 最后更新 2026-10-29_
 
 ---
 
@@ -38,17 +38,20 @@ _面向 AI Agent 的仓库交接文档 · 最后更新 2026-10-01_
 .
 ├── index.md                    首页（layout: home，hero + features）
 ├── about.md                    关于页
+├── map.md                      内容地图：全站文章按领域 + 专题索引
+├── 404.md                      未命中路径 → 元刷新回首页
+├── infra/                      基础设施：虚拟机、远程访问、部署与托管
+├── dev/                        本地开发：编辑器、版本控制、终端
+├── ai/                         AI Agent：客户端迁移、皮肤、排错与生态
+├── automation/                 自动化与编排：worktree、浏览器、代码索引
+├── platform/                   应用与平台：iOS、GitHub、RSS
+├── writing/                    写作与知识管理
+├── series/                     跨领域专题页（不是分类，是串联层）
 ├── README.md                   仓库说明（不进站点）
 ├── AGENTS.md                   本文件（不进站点）
 ├── CLAUDE.md                   指向本文件（不进站点）
 ├── templates/                  新文章模板（不进站点）
 │   └── article.md
-├── tech/                       【分类】技术
-│   ├── deploy/                 【子分类】部署与托管
-│   │   └── github-pages.md
-│   └── virtualization/         【子分类】虚拟化
-│       ├── ubuntu-kvm.md
-│       └── omarchy-vm.md
 ├── public/                     静态资源，原样复制到产物根目录
 │   ├── favicon.ico             站点图标（16/32/48/64 多尺寸）
 │   ├── apple-touch-icon.png    iOS 主屏图标 180×180
@@ -60,6 +63,26 @@ _面向 AI Agent 的仓库交接文档 · 最后更新 2026-10-01_
         ├── custom.css          Mermaid 外观补丁（节点圆角、非流程图类型的配色）
         └── PixelDust.vue       首页 hero 前的像素尘埃动效
 ```
+
+### 领域边界（新增文章先查这张表）
+
+一级目录**只按领域切**，不按形态（推荐/清单）或体裁（复盘）切。一篇文章只属于一个领域，跨领域关系写进 `series/`。
+
+| 领域 | 收什么 | 不收什么 |
+| ------------ | ---------------------------------------------- | ------------------------------ |
+| `infra/` | 机器、网络、部署、托管、网关 | 编辑器 / 终端工具（→ `dev/`） |
+| `dev/` | 编辑器、版本控制、终端等本机工具 | 用工具编排 agent（→ `automation/`） |
+| `ai/` | agent 客户端本体：迁移、主题、凭据、技能与角色库 | agent 操作外部世界（→ `automation/`） |
+| `automation/` | worktree 编排、浏览器自动化、代码索引、工程流程 | 工具自身用法（→ `dev/`） |
+| `platform/` | 外部平台上的问题：iOS、GitHub、RSS | 自建服务与部署（→ `infra/`） |
+| `writing/` | 写作规范、图表、模板 | 具体技术内容（按领域归） |
+
+四条硬规则：
+
+1. 不设 `tools/`、`misc/`、`other/` 这类兜底目录 —— 兜底目录必然变成杂物间
+2. 单领域超过 8 篇再考虑二级目录，否则保持扁平
+3. 每个领域必须有 `index.md`：一句话边界 + 文章表 + 阅读顺序
+4. 跨领域的一条线索写 `series/<name>.md`，用有序链接表串联，不要靠目录嵌套
 
 ### `.vitepress/config.mts` 是核心
 
@@ -137,7 +160,8 @@ google-chrome --headless --disable-gpu --no-sandbox \
 
 | 对象 | 规则 | 示例 |
 | ---------- | -------------------------------------- | ---------------------------------- |
-| **目录** | 英文、小写、kebab-case | `tech/virtualization/` |
+| **一级目录** | 固定六选一：`infra` `dev` `ai` `automation` `platform` `writing` | `ai/` |
+| **专题目录** | 仅 `series/`，文件名 kebab-case | `series/hermes.md` |
 | **文章文件** | 英文、小写、kebab-case | `ubuntu-kvm.md` |
 | **静态资源** | 英文、小写、下划线分隔 | `public/kvm_arch.png` |
 
@@ -155,24 +179,29 @@ google-chrome --headless --disable-gpu --no-sandbox \
 
 ### 新增文章的标准流程
 
-1. **复制模板**：`cp templates/article.md tech/分类/my-article.md`
-2. 替换模板中的 `<尖括号>` 占位内容，定稿后删掉顶部注释块
-3. **在 `config.mts` 的 `sidebar` 登记**该文章，否则侧边栏找不到入口：
+1. **选领域**：按上面「领域边界」表确定目录，六个之一
+2. **复制模板**：`cp templates/article.md <领域>/my-article.md`
+3. 替换模板中的 `<尖括号>` 占位内容，定稿后删掉顶部注释块
+4. **在该域 `index.md` 的文章表加一行**（标题 + 一句话），否则域入口页里没有它
+5. **在 `config.mts` 的 `sidebar` 对应段落登记**，否则侧边栏找不到入口：
    ```ts
-   { text: '文章标题', link: '/tech/分类/my-article' }
+   { text: '文章标题', link: '/ai/my-article' }
    ```
-4. 本地 `npm run docs:dev` 确认排版，`npm run docs:build` 确认无误后推送
+6. 若与已有文章构成一条线索，在 `series/` 对应专题页补一行
+7. 本地 `npm run docs:dev` 确认排版，`npm run docs:build` 过一遍死链检查（`ignoreDeadLinks: false`）
 
 模板 `templates/article.md` 里已包含文档头、TL;DR、踩坑记录、Mermaid 图表等的标准写法。
 
-### 新增分类
+### 新增领域
 
-目录即分类。两步：
+六个一级领域**已冻结**，不再随手新增。确需新增时按顺序做：
 
-1. 建目录：`mkdir -p tech/新分类`
-2. 在 `config.mts` 的 `nav` 加一行、`sidebar` 加一段（文件里已留注释位置）
+1. 预期能积累 ≥5 篇，且与现有六个领域的边界不重叠
+2. 先改本文档：目录树 + 「领域边界」表
+3. 建目录与 `index.md`，在 `config.mts` 的 `nav`（或「更多」下拉）与 `sidebar` 各加一段
+4. 以上三步没完成前，新文章先放进最接近的现有领域
 
-一级分类保持在 3–5 个且足够宽泛，细节下沉到二级子目录 —— 这样内容增长时不必重排结构。
+> 2026-10-29 做过一次全站重组：`tech/` + `picks/` + `first-look/`（三种维度混用）→ 六个领域目录。
 
 ### 图表
 
@@ -310,13 +339,32 @@ Syncthing / iCloud / OneDrive / 坚果云等工具会把 `.git/refs`、`.git/ind
 
 `.gitattributes` 里的 `*.md merge=union` 是为了让多设备并发编辑不同段落时不产生冲突。
 
+### 6. 目录改名等于 URL 改名
+
+**症状**
+
+移动文章后，旧链接（外部收藏、搜索引擎结果）返回 404，站内相对链接也可能断。
+
+**原因**
+
+文件名就是 URL，目录改名会改掉整个前缀；`rewrites` 不作用于文内相对链接。
+
+**现状**
+
+2026-10-29 做过一次全站重组，旧路径（`tech/` `picks/` `first-look/`）**未保留**。`404.md` 会把未命中路径重定向到首页，因此旧深链只能回到首页，不能恢复到具体文章。
+
+**规则**
+
+此后路径冻结。确需重组时一次性完成，并同步改：所有 `.md` 相对链接、`config.mts` 的 nav/sidebar、`README.md` / `AGENTS.md` / `templates/` 里的示例路径。
+
 ---
 
 ## 📚 文档索引
 
 | 需要查什么 | 去哪里 |
 | -------------------- | --------------------------------------------------------------------------------- |
-| **本仓库搭建全流程** | [`tech/deploy/github-pages.md`](tech/deploy/github-pages.md) —— 含排错与多机同步 |
+| **全站文章索引** | [`map.md`](./map.md) —— 按领域与专题两条线 |
+| **本仓库搭建全流程** | [`infra/github-pages.md`](./infra/github-pages.md) —— 含排错与多机同步 |
 | VitePress 配置项 | <https://vitepress.dev/reference/site-config> |
 | VitePress 默认主题 | <https://vitepress.dev/reference/default-theme-config> |
 | Markdown 扩展语法 | <https://vitepress.dev/guide/markdown> |
@@ -335,3 +383,4 @@ Syncthing / iCloud / OneDrive / 坚果云等工具会把 `.git/refs`、`.git/ind
 | 写入主机名、内网 IP、连接手册 | 等于公开基础设施地图，属侦察材料 |
 | 删除 `.gitattributes` 的合并规则 | 多机同步会开始产生冲突 |
 | 直接改动 `~/code/config/` 等原稿目录 | 本站内容是副本；原稿归原处，避免双向不同步 |
+| 移动已发布的文章或目录 | URL 即路径，移动等于旧链接失效；重组按「已知陷阱 6」一次性做 |

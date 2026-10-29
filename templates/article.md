@@ -4,13 +4,15 @@
   └─────────────────────────────────────────────────────────────┘
 
   用法：
-    1. 复制到目标分类目录，文件名用英文 kebab-case
-       例：cp templates/article.md tech/virtualization/foo-bar.md
+    1. 选领域：infra / dev / ai / automation / platform / writing（六选一，
+       边界见 AGENTS.md「领域边界」），文件名用英文 kebab-case
+       例：cp templates/article.md ai/foo-bar.md
     2. 替换下面所有 <尖括号> 占位内容
-    3. 在 .vitepress/config.mts 的 sidebar 对应分组里登记一行：
-       { text: '文章标题', link: '/tech/分类/foo-bar' }
-    4. npm run docs:dev 本地预览确认
-    5. 定稿后把本注释块和不需要的章节删掉
+    3. 在该域 index.md 的文章表加一行
+    4. 在 .vitepress/config.mts 的 sidebar 对应段落登记一行：
+       { text: '文章标题', link: '/ai/foo-bar' }
+    5. npm run docs:dev 本地预览确认
+    6. 定稿后把本注释块和不需要的章节删掉
 
   硬性规则：
     - 文件名：英文、小写、kebab-case（就是 URL，不要再改）
