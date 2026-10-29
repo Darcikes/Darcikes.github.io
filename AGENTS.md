@@ -181,6 +181,43 @@ google-chrome --headless --disable-gpu --no-sandbox \
 - **引用其他文章用相对 `.md` 链接**（`[另一篇](./other.md)`）—— GitHub 和站点两边都能跳
 - 界面文字已中文化，深色模式自动适配
 
+### 代码块折叠
+
+**规则：代码块 ≥ 25 行时折叠；渲染图表的代码块不折叠。**
+
+**怎么区分代码和图表** —— 看围栏语言，与站点渲染器同一条判据：
+
+| 围栏语言 | 判定 | 处理 |
+|---|---|---|
+| `mermaid` | 渲染图（渲染器只认 `div.language-mermaid`，见陷阱 3） | **不折叠** |
+| `bash` / `yaml` / `ts` / `python` / `xml` / `json` / `text` 等 | 代码、配置、示例或命令输出 | 按 25 行规则 |
+| 无标注 | 先按代码处理；若首行是 mermaid 关键字（`flowchart`、`graph`、`sequenceDiagram`、`classDiagram`、`stateDiagram`、`erDiagram`、`mindmap`、`timeline`、`gantt`、`pie`、`journey`、`quadrantChart`） | 补上 `mermaid` 标注，再按图表处理 |
+
+为什么图表必须排除：渲染器依赖 `IntersectionObserver`，折叠状态下元素高度为 0，不会被处理；展开后才可能渲染，还可能出现尺寸抖动。图本身是视觉主体，藏起来没有意义。
+
+**写法**
+
+````markdown
+::: details 完整脚本 img2art.py（95 行）
+
+```python
+...
+```
+
+:::
+````
+
+- 阈值口径：围栏内物理行数，**空行计入**，不含围栏标记本身
+- summary 必须写清用途与行数，禁止「展开代码」「点击查看」这类空话
+- 一个 details 里只放一个代码块（可带一句说明），不跨 `##` 标题
+- 例外：**逐行讲解型**代码不折叠——正文按行引用它（「第 3 行改成…」），折起来会打断对照
+
+**适用范围**
+
+只对站点文章（`srcExclude` 之外的文件）生效。`README.md` / `AGENTS.md` / `CLAUDE.md` / `templates/` 在 GitHub 上读，GitHub 不渲染 `::: details`，会露出原始标记，一律不用。
+
+存量文章暂不回溯；新增或大改文章时遵守。
+
 ### 新增文章的标准流程
 
 1. **选领域**：按上面「领域边界」表确定目录，六个之一
