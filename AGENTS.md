@@ -86,13 +86,13 @@ _面向 AI Agent 的仓库交接文档 · 最后更新 2026-10-29_
 
 ### `.vitepress/config.mts` 是核心
 
-改标题、加导航、加分类，全在这一个文件。关键字段：
+改标题、加导航、加领域，全在这一个文件。关键字段：
 
 | 字段 | 作用 |
 | --------------- | ------------------------------------------------------------ |
 | `title` | 站点标题，显示在浏览器标签与页面右上 |
-| `nav` | 顶部导航。新增分类时加一行 |
-| `sidebar` | 侧边栏，按 `/分类/` 键分组。**新增文章必须在此登记，否则侧边栏里看不到** |
+| `nav` | 顶部导航。当前是 5 项 + 「更多」下拉 + 关于；新增领域时优先放进下拉 |
+| `sidebar` | 侧边栏，按 `/领域/` 键分组（6 段 + `series/` + `map`）。**新增文章必须在此登记** |
 | `srcExclude` | 排除不进站点的文件（README / AGENTS / CLAUDE / templates） |
 | `search` | 本地全文搜索，自带无需第三方服务 |
 | `head` | 注入每个页面 `<head>` 的标签（favicon、apple-touch-icon） |
@@ -111,6 +111,9 @@ npm run docs:build       # 构建 → .vitepress/dist/
 npm run docs:preview     # 预览构建产物 → http://localhost:4173/
 ```
 
+- `docs:build` 现在**会因站内死链失败**（`ignoreDeadLinks: false`）。改完链接必须先 build 通过。
+- `docs:preview` 在启动时缓存资源清单：**重新 build 后必须重启 preview**，否则新 hash 的 JS 404，页面只剩未渲染的原始代码块。
+
 **验证构建产物**（比"构建成功"更可靠）：
 
 ```bash
@@ -120,7 +123,8 @@ grep -oE 'href="[^"]*"' .vitepress/dist/**/*.html | grep -P '[\x{4e00}-\x{9fff}]
 # 用无头浏览器验证 Mermaid 真的渲染了（构建产物里看不到，因为是客户端渲染）
 google-chrome --headless --disable-gpu --no-sandbox \
   --window-size=1440,3000 --virtual-time-budget=45000 \
-  --dump-dom "http://localhost:4173/技术/页面路径.html" | grep -c '<svg'
+  --dump-dom "http://localhost:4173/ai/hermes-skin-theme.html" \
+  | grep -c 'class="mermaid-wrapper"'
 ```
 
 > 💡 **验证图表渲染时注意 `IntersectionObserver`。** 渲染器只处理**进入视口**的图表（滚动到哪渲染到哪），所以：
@@ -130,12 +134,12 @@ google-chrome --headless --disable-gpu --no-sandbox \
 > - 正确做法：**建一个临时页面，把所有待验证的图表放在顶部**，验证完删除。示例：
 >
 > ```bash
-> # 1) 提取所有图表到临时页面 tech/_verify.md（放在最前）
+> # 1) 提取所有图表到临时页面 _verify.md（根目录，放在最前）
 > # 2) 用开发服务器验证
 > google-chrome --headless --disable-gpu --no-sandbox --window-size=1440,4000 \
->   --virtual-time-budget=60000 --dump-dom "http://localhost:5173/tech/_verify.html" \
+>   --virtual-time-budget=60000 --dump-dom "http://localhost:5173/_verify.html" \
 >   > /tmp/dom.html
-> # 3) rm tech/_verify.md
+> # 3) rm _verify.md
 > ```
 >
 > ⚠️ **判定要两步，只数 `mermaid-wrapper` 会漏判** —— 渲染失败时 wrapper 依然存在，错误 UI（炸弹图标 + `Failed to render diagram`）在 wrapper **内部**。
@@ -356,6 +360,20 @@ Syncthing / iCloud / OneDrive / 坚果云等工具会把 `.git/refs`、`.git/ind
 **规则**
 
 此后路径冻结。确需重组时一次性完成，并同步改：所有 `.md` 相对链接、`config.mts` 的 nav/sidebar、`README.md` / `AGENTS.md` / `templates/` 里的示例路径。
+
+### 7. preview 服务不热更新构建产物
+
+**症状**
+
+改了文章、重新 `npm run docs:build`，刷新 `4173` 页面看到的是旧的 JS 资源 404，Mermaid 图显示成原始代码，Vue 也没接管页面。
+
+**原因**
+
+`docs:preview` 启动时缓存了 `dist` 的资源清单，新构建换了 hash 的文件名不在清单里，于是返回 404。
+
+**解决**
+
+build 之后重启 preview；开发阶段用 `docs:dev`（5173），它才是热更新的那个。
 
 ---
 
