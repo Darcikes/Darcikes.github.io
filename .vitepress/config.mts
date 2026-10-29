@@ -142,6 +142,7 @@ export default defineConfig({
             { text: '概览', link: '/ai/' },
             { text: '从 Claude Code 迁移到 Hermes Agent', link: '/ai/claude-to-hermes-migration' },
             { text: 'Hermes Agent 皮肤（skin）配置详解', link: '/ai/hermes-skin-theme' },
+            { text: 'Hermes Skill 的加载与写入机制', link: '/ai/hermes-skill-loading' },
             { text: 'Claude Code 后台会话与密钥串号', link: '/ai/claude-code-daemon-auth' },
             { text: 'Claude CLI 状态栏与用量统计', link: '/ai/claude-cli-statusline' },
             { text: 'Codex++ 桌面增强', link: '/ai/codex-plus-plus' },

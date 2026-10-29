@@ -1,6 +1,6 @@
 # AI Agent
 
-_agent 本体：客户端迁移、皮肤定制、排错与生态 · 8 篇_
+_agent 本体：客户端迁移、皮肤定制、排错与生态 · 9 篇_
 
 ---
 
@@ -15,6 +15,7 @@ _agent 本体：客户端迁移、皮肤定制、排错与生态 · 8 篇_
 |---|---|
 | [从 Claude Code 迁移到 Hermes Agent](./claude-to-hermes-migration.md) | 一次「不复制配置、只迁移职责」的迁移复盘：边界、步骤与踩坑 |
 | [Hermes Agent 皮肤（skin）配置详解](./hermes-skin-theme.md) | 逐字段说明 skin YAML 与完整示例配置，含 Agent 执行清单与图片转字标脚本 |
+| [Hermes Skill 的加载与写入机制](./hermes-skill-loading.md) | 四个加载层、只读边界、新建落盘位置与排错，附可复制给 agent 的执行卡 |
 | [Claude Code 后台会话与密钥串号](./claude-code-daemon-auth.md) | 多套 API 凭据并行时 daemon 继承环境变量导致的串号与排查 |
 | [Claude CLI 状态栏与用量统计](./claude-cli-statusline.md) | ccusage + ccstatusline：状态栏渲染与真实费用统计，三方 API 也能算 |
 | [Codex++ 桌面增强](./codex-plus-plus.md) | Codex 桌面版的外部启动器：供应商切换、协议转换、会话管理 |
@@ -24,7 +25,7 @@ _agent 本体：客户端迁移、皮肤定制、排错与生态 · 8 篇_
 
 ## 阅读顺序
 
-换客户端先看 **claude-to-hermes-migration**，再按需定制外观 **hermes-skin-theme**；多凭据环境先解决 **claude-code-daemon-auth**。
+换客户端先看 **claude-to-hermes-migration**，再按需定制外观 **hermes-skin-theme**；技能库怎么加载、怎么写先读 **hermes-skill-loading**；多凭据环境先解决 **claude-code-daemon-auth**。
 
 ## 相关专题
 

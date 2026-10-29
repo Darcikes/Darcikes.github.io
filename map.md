@@ -1,6 +1,6 @@
 # 内容地图
 
-_全站 26 篇技术文章，按「领域」与「专题」两条线索引 · 最后更新：2026-10-29_
+_全站 27 篇技术文章，按「领域」与「专题」两条线索引 · 最后更新：2026-10-29_
 
 ---
 
@@ -12,7 +12,7 @@ _全站 26 篇技术文章，按「领域」与「专题」两条线索引 · �
 |---|---|---|---|
 | 基础设施 | 机器、网络、部署与托管 | 5 | [infra/index](./infra/index.md) |
 | 本地开发 | 编辑器、版本控制、终端 | 4 | [dev/index](./dev/index.md) |
-| AI Agent | 客户端迁移、皮肤、排错与生态 | 8 | [ai/index](./ai/index.md) |
+| AI Agent | 客户端迁移、皮肤、技能库、排错与生态 | 9 | [ai/index](./ai/index.md) |
 | 自动化与编排 | worktree 编排、浏览器、代码索引、工程流程 | 5 | [automation/index](./automation/index.md) |
 | 应用与平台 | iOS、GitHub、RSS | 3 | [platform/index](./platform/index.md) |
 | 写作与知识管理 | 文档结构、图表、模板 | 1 | [writing/index](./writing/index.md) |
@@ -23,7 +23,7 @@ _全站 26 篇技术文章，按「领域」与「专题」两条线索引 · �
 
 | 专题 | 串起什么 | 篇数 |
 |---|---|---|
-| [Hermes 上手](./series/hermes.md) | 凭据排错 → 迁移决策 → 外观定制 | 3 |
+| [Hermes 上手](./series/hermes.md) | 凭据排错 → 迁移决策 → 外观定制 → 技能机制 | 4 |
 | [KVM 实验室](./series/kvm-lab.md) | 装宿主机 → 选客户机 → 远程访问 | 3 |
 | [浏览器自动化](./series/browser-automation.md) | 链路选型 → CDP 实操 | 2 |
 
