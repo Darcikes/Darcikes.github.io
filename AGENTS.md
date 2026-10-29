@@ -97,6 +97,8 @@ _面向 AI Agent 的仓库交接文档 · 最后更新 2026-10-29_
 | `search` | 本地全文搜索，自带无需第三方服务 |
 | `head` | 注入每个页面 `<head>` 的标签（favicon、apple-touch-icon） |
 | `sitemap.hostname` | 生成 sitemap.xml 用的域名 —— **必须与最终访问地址一致** |
+| `lastUpdated` | 页面底部显示「最后更新」，取自 git 提交时间；CI 的 `fetch-depth: 0` 就是为它准备的 |
+| `transformHead` | 每页注入 `og:title` / `og:description` / `og:url`，缺省回落到站点级 |
 
 > ⚠️ **域名写在两个地方**：`config.mts` 的 `sitemap.hostname` 和 `public/robots.txt` 里的 `Sitemap:` 行。将来换自定义域名时**两处都要改**，否则搜索引擎拿到的地图指向旧域名。
 
@@ -267,6 +269,8 @@ flowchart LR
 
 重新生成（换了字或颜色时）：
 
+> ⚠️ 这套命令依赖 ImageMagick 的 `convert` 与中文字体。本机目前**两者都不具备**（`convert` 不存在，`fc-match 'Noto Sans CJK SC'` 回落到 Verdana），需要先 `brew install imagemagick` 并确认装了中文字体。替代方案见下方「社交封面」。
+
 ```bash
 FONT=$(fc-match -f '%{file}' 'Noto Sans CJK SC:style=Medium')
 
@@ -282,6 +286,21 @@ convert -size 180x180 xc:'#2563eb' -fill white -gravity center \
 ```
 
 > 📌 中间产物不要放进 `public/` —— 该目录下所有文件都会**原样复制进站点产物**并被部署。
+
+### 社交封面（og-cover.png）
+
+链接分享卡片用的 1200×630 封面，存放在 `public/og-cover.png`；`config.mts` 的 `head` 写入 `og:image` / `twitter:image`，`transformHead` 按页注入标题、描述与网址。
+
+没有 ImageMagick 时用 HTML + Chrome 截图生成（macOS 自带 Chrome，字体用 PingFang）：
+
+```bash
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless --disable-gpu --no-sandbox --hide-scrollbars \
+  --force-device-scale-factor=1 --window-size=1200,630 \
+  --screenshot=public/og-cover.png "file:///绝对路径/cover.html"
+```
+
+站点名或副标题变了就重画一次；不用逐页生成，标题与描述由 `transformHead` 动态取。
 
 ### 图表主题
 

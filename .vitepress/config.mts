@@ -19,7 +19,29 @@ export default defineConfig({
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico', sizes: 'any' }],
     ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
+    // 社交分享卡片（标题 / 描述 / 网址按页注入，见下方 transformHead）
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: '知行录' }],
+    ['meta', { property: 'og:image', content: 'https://darcikes.github.io/og-cover.png' }],
+    ['meta', { property: 'og:image:width', content: '1200' }],
+    ['meta', { property: 'og:image:height', content: '630' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: 'https://darcikes.github.io/og-cover.png' }],
   ],
+
+  // 每页注入 og:title / og:description / og:url；缺省回落到站点级
+  transformHead({ page, title, description, siteData }) {
+    const origin = 'https://darcikes.github.io'
+    const clean = page.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')
+    const url = clean ? `${origin}/${clean}` : `${origin}/`
+    const fallbackTitle = siteData.title
+    const fallbackDesc = siteData.description || ''
+    return [
+      ['meta', { property: 'og:title', content: title || fallbackTitle }],
+      ['meta', { property: 'og:description', content: description || fallbackDesc }],
+      ['meta', { property: 'og:url', content: url }],
+    ]
+  },
 
   // ----------------------------------------------------------
   //  自动生成 sitemap.xml（供搜索引擎收录）
