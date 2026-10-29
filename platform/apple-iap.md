@@ -598,7 +598,7 @@ flowchart TB
 
 ## 🔗 参考资源
 
-- [Apple Developer — Testing in-app purchases with sandbox](https://developer.apple.com/documentation/storekit/in-app_purchase/testing_in-app_purchase_with_sandbox)
+- [Apple Developer — Testing in-app purchases with sandbox](https://developer.apple.com/documentation/storekit/in-app_purchase/testing_in-app_purchase_transactions)
 - [Apple Developer — Validating receipts with the App Store](https://developer.apple.com/documentation/storekit/in-app_purchase/validating_receipts_with_the_app_store)
 - [App Store Connect — 沙箱测试员管理](https://appstoreconnect.apple.com/access/users)
 

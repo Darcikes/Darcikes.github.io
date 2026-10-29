@@ -176,6 +176,7 @@ google-chrome --headless --disable-gpu --no-sandbox \
 ### 写作规范
 
 - **一个文件一个 H1**，作为页面标题。VitePress 自动提取
+- **例外：首页 `index.md` 用 `layout: home`**，标题取 `hero.name`，不写 H1
 - **无需 frontmatter**，`title` 自动取第一个 H1
 - **不要写手写目录**（`## 目录`）—— VitePress 自动生成右侧大纲，手写的那份是重复的，且锚点规则不兼容（见下方陷阱）
 - **引用其他文章用相对 `.md` 链接**（`[另一篇](./other.md)`）—— GitHub 和站点两边都能跳
